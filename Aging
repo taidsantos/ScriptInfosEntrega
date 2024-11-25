@@ -3,19 +3,18 @@ import requests
 import pandas as pd
 import time
 import csv
-import base64, sys, requests, os
 from datetime import datetime, timedelta
 
 #lendo os arquivos
 df_entregas = pd.read_csv('Documentos\\entregas.csv')
-df_transp1 = pd.read_excel('Documentos\\transp1.xlsx')
-df_transp2= pd.read_excel('Documentos\\transp2.xlsx')
+df_transportadora1 = pd.read_excel('Documentos\\transp1.xlsx')
+df_transportadora2= pd.read_excel('Documentos\\transp2.xlsx')
 df_apoio = pd.read_excel('Documentos\\apoio.xlsx')
 
 #merge dos dataframes de acordo com id de entrega
 
-merged_transp1 = pd.merge(df_entregas, df_transp1, left_on='id_entrega', right_on='id', how='left')
-merged_transp2 = pd.merge(df_entregas, df_transp2, left_on='id_entrega', right_on='id', how='left')
+merged_transp1 = pd.merge(df_entregas, df_transportadora1, left_on='id_entrega', right_on='id', how='left')
+merged_transp2 = pd.merge(df_entregas, df_transportadora2, left_on='id_entrega', right_on='id', how='left')
 
 #selecionando colunas para o dataframe
 df_dadostransp1 = merged_transp1[['Address City', 'Address State', 'ID', 'Transportation Date', 'Última ocorrência']].copy()
@@ -59,4 +58,4 @@ resultado_2 = merged_apoio_2[['Address City', 'Address State', 'ID',  'Transport
 
 #Exportando resultados
 resultado_1.to_csv('Documentos\\resultado_1.csv', index=False, encoding='utf-8-sig', sep=',')
-resultado_2_csv('Documentos\\resultado_2.csv', index=False, encoding='utf-8-sig', sep=',')
+resultado_2.to_csv('Documentos\\resultado_2.csv', index=False, encoding='utf-8-sig', sep=',')
